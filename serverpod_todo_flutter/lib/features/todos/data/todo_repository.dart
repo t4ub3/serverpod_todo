@@ -15,6 +15,5 @@ class TodoRepository {
 
   Future<List<Todo>> fetchTodos() => _client.todo.getAll();
   Future<Todo> createTodo(Todo todo) => _client.todo.add(todo);
-  Future<Todo> toggleTodo(Todo todo) =>
-      _client.todo.updateOrAddIfNotExist(todo);
+  Future<Todo> toggleTodo(Todo todo) => _client.todo.toggleTodo(todo);
 }

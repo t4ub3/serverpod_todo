@@ -35,4 +35,9 @@ class TodoEndpoint extends Endpoint {
     }
     return await Todo.db.insertRow(session, todo);
   }
+
+  Future<Todo> toggleTodo(Session session, Todo todo) {
+    final newTodo = todo.copyWith(isCompleted: !todo.isCompleted);
+    return updateOrAddIfNotExist(session, newTodo);
+  }
 }

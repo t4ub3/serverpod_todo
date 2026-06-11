@@ -13,9 +13,18 @@
 import 'package:serverpod_client/serverpod_client.dart' as _i1;
 
 enum Priority implements _i1.SerializableModel {
-  low,
-  medium,
-  high;
+  low('Low', '0xFF578356'),
+  medium('Medium', '0xFFda8144'),
+  high('High', '0xFFCF4D4F');
+
+  const Priority(
+    this.displayName,
+    this.color,
+  );
+
+  final String displayName;
+
+  final String color;
 
   static Priority fromJson(String name) {
     switch (name) {

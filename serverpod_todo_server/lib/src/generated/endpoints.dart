@@ -367,6 +367,24 @@ class Endpoints extends _i1.EndpointDispatch {
                     params['todo'],
                   ),
         ),
+        'toggleTodo': _i1.MethodConnector(
+          name: 'toggleTodo',
+          params: {
+            'todo': _i1.ParameterDescription(
+              name: 'todo',
+              type: _i1.getType<_i7.Todo>(),
+              nullable: false,
+            ),
+          },
+          call:
+              (
+                _i1.Session session,
+                Map<String, dynamic> params,
+              ) async => (endpoints['todo'] as _i5.TodoEndpoint).toggleTodo(
+                session,
+                params['todo'],
+              ),
+        ),
       },
     );
     modules['serverpod_auth_idp'] = _i8.Endpoints()

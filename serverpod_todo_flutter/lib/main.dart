@@ -34,7 +34,7 @@ class MyApp extends StatelessWidget {
       title: 'Todo',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors.teal.shade200,
+          seedColor: Colors.grey.shade300,
           brightness: Brightness.light,
         ),
         useMaterial3: true,

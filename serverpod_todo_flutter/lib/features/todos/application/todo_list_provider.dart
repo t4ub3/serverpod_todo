@@ -18,4 +18,12 @@ class TodoList extends _$TodoList {
     final current = await future;
     state = AsyncData([...current, created]);
   }
+
+  Future<void> toggleTodo(Todo todo) async {
+    final updated = await ref.read(todoRepositoryProvider).toggleTodo(todo);
+    final current = await future;
+    state = AsyncData([
+      for (final t in current) t.id == updated.id ? updated : t,
+    ]);
+  }
 }

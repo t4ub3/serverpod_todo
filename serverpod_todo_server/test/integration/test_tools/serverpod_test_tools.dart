@@ -692,4 +692,35 @@ class _TodoEndpoint {
       }
     });
   }
+
+  _i3.Future<_i6.Todo> toggleTodo(
+    _i1.TestSessionBuilder sessionBuilder,
+    _i6.Todo todo,
+  ) async {
+    return _i1.callAwaitableFunctionAndHandleExceptions(() async {
+      var _localUniqueSession =
+          (sessionBuilder as _i1.InternalTestSessionBuilder).internalBuild(
+            endpoint: 'todo',
+            method: 'toggleTodo',
+          );
+      try {
+        var _localCallContext = await _endpointDispatch.getMethodCallContext(
+          createSessionCallback: (_) => _localUniqueSession,
+          endpointPath: 'todo',
+          methodName: 'toggleTodo',
+          parameters: _i1.testObjectToJson({'todo': todo}),
+          serializationManager: _serializationManager,
+        );
+        var _localReturnValue =
+            await (_localCallContext.method.call(
+                  _localUniqueSession,
+                  _localCallContext.arguments,
+                )
+                as _i3.Future<_i6.Todo>);
+        return _localReturnValue;
+      } finally {
+        await _localUniqueSession.close();
+      }
+    });
+  }
 }

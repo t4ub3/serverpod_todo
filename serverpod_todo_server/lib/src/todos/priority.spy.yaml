@@ -1,6 +1,15 @@
 enum: Priority
 serialized: byName
+properties:
+  displayName: String
+  color: String
 values:
-  - low
-  - medium
-  - high
+  - low:
+      displayName: "Low"
+      color: "0xFF578356"
+  - medium:
+      displayName: "Medium"
+      color: "0xFFda8144"
+  - high:
+      displayName: "High"
+      color: "0xFFCF4D4F"

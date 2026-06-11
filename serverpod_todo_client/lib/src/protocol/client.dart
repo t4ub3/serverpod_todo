@@ -301,6 +301,13 @@ class EndpointTodo extends _i2.EndpointRef {
         'updateOrAddIfNotExist',
         {'todo': todo},
       );
+
+  _i3.Future<_i6.Todo> toggleTodo(_i6.Todo todo) =>
+      caller.callServerEndpoint<_i6.Todo>(
+        'todo',
+        'toggleTodo',
+        {'todo': todo},
+      );
 }
 
 class Modules {

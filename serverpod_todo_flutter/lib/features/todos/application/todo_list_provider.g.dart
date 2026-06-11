@@ -33,7 +33,7 @@ final class TodoListProvider
   TodoList create() => TodoList();
 }
 
-String _$todoListHash() => r'a2588bbc2338a6609807a903a4571e3f07e3703a';
+String _$todoListHash() => r'f1bf773aeb11e2d98ce0cea83888eaaee1555063';
 
 abstract class _$TodoList extends $AsyncNotifier<List<Todo>> {
   FutureOr<List<Todo>> build();
