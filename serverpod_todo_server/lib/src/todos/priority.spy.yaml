@@ -1,0 +1,6 @@
+enum: Priority
+serialized: byName
+values:
+  - low
+  - medium
+  - high

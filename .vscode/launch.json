@@ -1,0 +1,38 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "serverpod_todo_flutter",
+            "cwd": "${workspaceFolder}/serverpod_todo_flutter",
+            "request": "launch",
+            "type": "dart",
+            "program": "lib/main.dart"
+        },
+        {
+            "name": "serverpod_todo_server",
+            "cwd": "${workspaceFolder}/serverpod_todo_server",
+            "request": "launch",
+            "type": "dart",
+            "preLaunchTask": "docker_compose_up",
+            "program": "bin/main.dart",
+            "env": {
+                "SERVERPOD_PASSWORD_database": "aYz7WbWCsgvoTD7ltnCnoQZVf9L9oWSz"
+            },
+            "args": [
+                "--apply-migrations"
+            ]
+        }
+    ],
+    "compounds": [
+        {
+            "name": "serverpod_todo (full stack)",
+            "configurations": [
+                "serverpod_todo_server",
+                "serverpod_todo_flutter"
+            ],
+            "presentation": {
+                "order": 1
+            }
+        }
+    ]
+}
