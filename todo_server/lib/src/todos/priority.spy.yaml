@@ -1,0 +1,19 @@
+enum: Priority
+serialized: byName
+properties:
+  displayName: String
+  color: int
+  colorTransparent: int
+values:
+  - low:
+      displayName: "Low"
+      color: 0xFF339900
+      colorTransparent: 0x33339900
+  - medium:
+      displayName: "Medium"
+      color: 0xFFFFCC00
+      colorTransparent: 0x33FFCC00
+  - high:
+      displayName: "High"
+      color: 0xFFCC3300
+      colorTransparent: 0x33CC3300

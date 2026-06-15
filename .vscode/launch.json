@@ -2,15 +2,15 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "serverpod_todo_flutter",
-            "cwd": "${workspaceFolder}/serverpod_todo_flutter",
+            "name": "todo_flutter",
+            "cwd": "${workspaceFolder}/todo_flutter",
             "request": "launch",
             "type": "dart",
             "program": "lib/main.dart"
         },
         {
-            "name": "serverpod_todo_server",
-            "cwd": "${workspaceFolder}/serverpod_todo_server",
+            "name": "todo_server",
+            "cwd": "${workspaceFolder}/todo_server",
             "request": "launch",
             "type": "dart",
             "preLaunchTask": "docker_compose_up",
@@ -25,10 +25,10 @@
     ],
     "compounds": [
         {
-            "name": "serverpod_todo (full stack)",
+            "name": "todo (full stack)",
             "configurations": [
-                "serverpod_todo_server",
-                "serverpod_todo_flutter"
+                "todo_server",
+                "todo_flutter"
             ],
             "presentation": {
                 "order": 1

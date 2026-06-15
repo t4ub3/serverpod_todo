@@ -6,7 +6,7 @@
             "type": "shell",
             "command": "docker compose up -d",
             "options": {
-                "cwd": "${workspaceFolder}/serverpod_todo_server"
+                "cwd": "${workspaceFolder}/todo_server"
             }
         }
     ]

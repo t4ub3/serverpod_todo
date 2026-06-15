@@ -2,10 +2,9 @@ name: _
 publish_to: none
 
 environment:
-  sdk: '^3.8.0'
+  sdk: "^3.8.0"
 
 workspace:
-  - serverpod_todo_client
-  - serverpod_todo_server
-  - serverpod_todo_flutter
-
+  - todo_client
+  - todo_server
+  - todo_flutter

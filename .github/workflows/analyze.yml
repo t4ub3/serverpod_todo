@@ -15,11 +15,11 @@ jobs:
 
       - uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.32.8'
+          flutter-version: "3.32.8"
 
       - name: Install dependencies
         run: flutter pub get
 
       - name: Analyze
-        working-directory: serverpod_todo_server
+        working-directory: todo_server
         run: dart analyze --fatal-infos
