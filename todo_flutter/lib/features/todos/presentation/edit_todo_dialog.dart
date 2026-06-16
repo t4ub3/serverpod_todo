@@ -96,7 +96,7 @@ class _EditTodoState extends ConsumerState<EditTodo> {
       title: _titleController.text,
       description: _descriptionController.text,
       isCompleted: widget.todo?.isCompleted ?? false,
-      priority: _selectedPriority, // the actual selected value
+      priority: _selectedPriority,
     );
 
     if (widget.todo == null) {

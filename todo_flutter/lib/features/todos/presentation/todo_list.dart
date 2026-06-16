@@ -17,12 +17,27 @@ class TodoList extends ConsumerWidget {
       ),
       body: todos.when(
         data: (todos) {
-          return ListView.builder(
-            itemCount: todos.length,
-            itemBuilder: (context, index) {
-              final todo = todos[index];
-              return TodoListitem(todo);
-            },
+          todos.sort((a, b) => b.priority.index.compareTo(a.priority.index));
+          final currentTodos = todos.where((t) => !t.isCompleted).toList();
+          final completedTodos = todos.where((t) => t.isCompleted).toList();
+          return Column(
+            children: [
+              ListView.builder(
+                itemCount: currentTodos.length,
+                itemBuilder: (context, index) {
+                  final todo = currentTodos[index];
+                  return TodoListitem(todo);
+                },
+              ),
+              Text("Completed todos:"),
+              ListView.builder(
+                itemCount: completedTodos.length,
+                itemBuilder: (context, index) {
+                  final todo = completedTodos[index];
+                  return TodoListitem(todo);
+                },
+              ),
+            ],
           );
         },
         error: (e, _) {
