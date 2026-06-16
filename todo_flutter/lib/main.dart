@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hux/hux.dart';
 import 'package:todo_client/todo_client.dart';
 import 'package:flutter/material.dart';
 import 'package:serverpod_flutter/serverpod_flutter.dart';
@@ -32,13 +33,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Todo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors.grey.shade300,
-          brightness: Brightness.light,
-        ),
-        useMaterial3: true,
-      ),
+      theme: HuxTheme.lightTheme,
+      darkTheme: HuxTheme.darkTheme,
       home: const TodoList(),
     );
   }
