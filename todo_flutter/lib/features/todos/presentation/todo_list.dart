@@ -1,11 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:todo_client/todo_client.dart';
 import 'package:todo_flutter/features/todos/application/todo_list_provider.dart';
-import 'package:todo_flutter/features/todos/presentation/edit_todo_dialog.dart';
+import 'package:todo_flutter/features/todos/presentation/create_todo_dialog.dart';
+import 'package:todo_flutter/features/todos/presentation/todo_list_entry.dart';
 import 'package:todo_flutter/features/todos/presentation/todo_list_item.dart';
+import 'package:todo_flutter/features/todos/presentation/todo_list_section_header.dart';
 
 class TodoList extends ConsumerWidget {
   const TodoList({super.key});
+
+  List<TodoListItem> _buildItems(List<Todo> todos) {
+    todos.sort((a, b) => b.priority.index.compareTo(a.priority.index));
+    final openTodos = todos.where((t) => !t.isCompleted).toList();
+    final completedTodos = todos.where((t) => t.isCompleted).toList();
+    final items = <TodoListItem>[];
+
+    if (openTodos.isNotEmpty) {
+      items.add(TodoHeaderItem('Open todos'));
+      items.addAll(openTodos.map(TodoEntryItem.new));
+    }
+
+    if (completedTodos.isNotEmpty) {
+      items.add(TodoHeaderItem('Completed todos'));
+      items.addAll(completedTodos.map(TodoEntryItem.new));
+    }
+
+    return items;
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -17,28 +39,23 @@ class TodoList extends ConsumerWidget {
       ),
       body: todos.when(
         data: (todos) {
-          todos.sort((a, b) => b.priority.index.compareTo(a.priority.index));
-          final currentTodos = todos.where((t) => !t.isCompleted).toList();
-          final completedTodos = todos.where((t) => t.isCompleted).toList();
-          return Column(
-            children: [
-              ListView.builder(
-                itemCount: currentTodos.length,
-                itemBuilder: (context, index) {
-                  final todo = currentTodos[index];
-                  return TodoListitem(todo);
-                },
-              ),
-              Text("Completed todos:"),
-              ListView.builder(
-                itemCount: completedTodos.length,
-                itemBuilder: (context, index) {
-                  final todo = completedTodos[index];
-                  return TodoListitem(todo);
-                },
-              ),
-            ],
-          );
+          if (todos.isEmpty) {
+            return Center(child: Text("Keine Todos"));
+          } else {
+            final items = _buildItems(todos);
+            return ListView.builder(
+              itemCount: items.length,
+              itemBuilder: (context, index) {
+                final item = items[index];
+                return switch (item) {
+                  TodoHeaderItem(title: final title) => TodoListSectionHeader(
+                    title,
+                  ),
+                  TodoEntryItem(todo: final todo) => TodoListEntry(todo),
+                };
+              },
+            );
+          }
         },
         error: (e, _) {
           return Center(
@@ -54,7 +71,7 @@ class TodoList extends ConsumerWidget {
           showDialog(
             barrierDismissible: false,
             context: context,
-            builder: (context) => EditTodo(),
+            builder: (context) => CreateTodoDialog(),
           );
         },
         child: Icon(Icons.add),

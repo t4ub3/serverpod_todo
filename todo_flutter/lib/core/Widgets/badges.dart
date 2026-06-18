@@ -1,30 +1,28 @@
-import 'dart:ui';
-
-import 'package:hux/hux.dart';
+import 'package:flutter/material.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:todo_client/todo_client.dart';
-import 'package:todo_flutter/core/variables/colors.dart';
+import 'package:todo_flutter/core/theme/nord_color_scheme.dart';
 
-HuxBadge priorityBadge(Todo todo) {
-  final name = todo.priority.displayName;
-  final Color color;
-  if (todo.isCompleted) {
-    color = grey;
-  } else {
-    switch (todo.priority) {
-      case Priority.low:
-        color = greenMuted;
-        break;
-      case Priority.medium:
-        color = yellowMuted;
-        break;
-      case Priority.high:
-        color = redMuted;
-        break;
-    }
+class PriorityBadge extends StatelessWidget {
+  const PriorityBadge(this.todo, {super.key});
+
+  final Todo todo;
+
+  Color get _color {
+    return switch (todo.priority) {
+      Priority.low => Nord.auroraGreen,
+      Priority.medium => Nord.auroraYellow,
+      Priority.high => Nord.auroraOrange,
+    };
   }
 
-  return HuxBadge(
-    label: name,
-    customColor: color,
-  );
+  @override
+  Widget build(BuildContext context) {
+    return ShadBadge(
+      backgroundColor: todo.isCompleted
+          ? ShadTheme.of(context).colorScheme.muted
+          : _color,
+      child: Text(todo.priority.displayName),
+    );
+  }
 }
