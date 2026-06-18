@@ -17,11 +17,16 @@ import 'package:serverpod_auth_idp_server/serverpod_auth_idp_server.dart'
 import 'package:serverpod_auth_core_server/serverpod_auth_core_server.dart'
     as _i4;
 import 'greetings/greeting.dart' as _i5;
-import 'todos/priority.dart' as _i6;
-import 'todos/todo.dart' as _i7;
-import 'package:todo_server/src/generated/todos/todo.dart' as _i8;
-import 'package:todo_server/src/generated/todos/priority.dart' as _i9;
+import 'settings/config.dart' as _i6;
+import 'settings/config_theme_mode.dart' as _i7;
+import 'todos/priority.dart' as _i8;
+import 'todos/todo.dart' as _i9;
+import 'package:todo_server/src/generated/settings/config.dart' as _i10;
+import 'package:todo_server/src/generated/todos/todo.dart' as _i11;
+import 'package:todo_server/src/generated/todos/priority.dart' as _i12;
 export 'greetings/greeting.dart';
+export 'settings/config.dart';
+export 'settings/config_theme_mode.dart';
 export 'todos/priority.dart';
 export 'todos/todo.dart';
 
@@ -33,6 +38,50 @@ class Protocol extends _i1.SerializationManagerServer {
   static final Protocol _instance = Protocol._();
 
   static final List<_i2.TableDefinition> targetTableDefinitions = [
+    _i2.TableDefinition(
+      name: 'config',
+      dartName: 'Config',
+      schema: 'public',
+      module: 'todo',
+      columns: [
+        _i2.ColumnDefinition(
+          name: 'id',
+          columnType: _i2.ColumnType.bigint,
+          isNullable: false,
+          dartType: 'int?',
+          columnDefault: 'nextval(\'config_id_seq\'::regclass)',
+        ),
+        _i2.ColumnDefinition(
+          name: 'themeMode',
+          columnType: _i2.ColumnType.text,
+          isNullable: false,
+          dartType: 'protocol:ConfigThemeMode',
+        ),
+        _i2.ColumnDefinition(
+          name: 'hideCompleted',
+          columnType: _i2.ColumnType.boolean,
+          isNullable: false,
+          dartType: 'bool',
+        ),
+      ],
+      foreignKeys: [],
+      indexes: [
+        _i2.IndexDefinition(
+          indexName: 'config_pkey',
+          tableSpace: null,
+          elements: [
+            _i2.IndexElementDefinition(
+              type: _i2.IndexElementDefinitionType.column,
+              definition: 'id',
+            ),
+          ],
+          type: 'btree',
+          isUnique: true,
+          isPrimary: true,
+        ),
+      ],
+      managed: true,
+    ),
     _i2.TableDefinition(
       name: 'todo',
       dartName: 'Todo',
@@ -124,26 +173,42 @@ class Protocol extends _i1.SerializationManagerServer {
     if (t == _i5.Greeting) {
       return _i5.Greeting.fromJson(data) as T;
     }
-    if (t == _i6.Priority) {
-      return _i6.Priority.fromJson(data) as T;
+    if (t == _i6.Config) {
+      return _i6.Config.fromJson(data) as T;
     }
-    if (t == _i7.Todo) {
-      return _i7.Todo.fromJson(data) as T;
+    if (t == _i7.ConfigThemeMode) {
+      return _i7.ConfigThemeMode.fromJson(data) as T;
+    }
+    if (t == _i8.Priority) {
+      return _i8.Priority.fromJson(data) as T;
+    }
+    if (t == _i9.Todo) {
+      return _i9.Todo.fromJson(data) as T;
     }
     if (t == _i1.getType<_i5.Greeting?>()) {
       return (data != null ? _i5.Greeting.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i6.Priority?>()) {
-      return (data != null ? _i6.Priority.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i6.Config?>()) {
+      return (data != null ? _i6.Config.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i7.Todo?>()) {
-      return (data != null ? _i7.Todo.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i7.ConfigThemeMode?>()) {
+      return (data != null ? _i7.ConfigThemeMode.fromJson(data) : null) as T;
     }
-    if (t == List<_i8.Todo>) {
-      return (data as List).map((e) => deserialize<_i8.Todo>(e)).toList() as T;
+    if (t == _i1.getType<_i8.Priority?>()) {
+      return (data != null ? _i8.Priority.fromJson(data) : null) as T;
     }
-    if (t == List<_i9.Priority>) {
-      return (data as List).map((e) => deserialize<_i9.Priority>(e)).toList()
+    if (t == _i1.getType<_i9.Todo?>()) {
+      return (data != null ? _i9.Todo.fromJson(data) : null) as T;
+    }
+    if (t == List<_i10.Config>) {
+      return (data as List).map((e) => deserialize<_i10.Config>(e)).toList()
+          as T;
+    }
+    if (t == List<_i11.Todo>) {
+      return (data as List).map((e) => deserialize<_i11.Todo>(e)).toList() as T;
+    }
+    if (t == List<_i12.Priority>) {
+      return (data as List).map((e) => deserialize<_i12.Priority>(e)).toList()
           as T;
     }
     try {
@@ -161,8 +226,10 @@ class Protocol extends _i1.SerializationManagerServer {
   static String? getClassNameForType(Type type) {
     return switch (type) {
       _i5.Greeting => 'Greeting',
-      _i6.Priority => 'Priority',
-      _i7.Todo => 'Todo',
+      _i6.Config => 'Config',
+      _i7.ConfigThemeMode => 'ConfigThemeMode',
+      _i8.Priority => 'Priority',
+      _i9.Todo => 'Todo',
       _ => null,
     };
   }
@@ -179,9 +246,13 @@ class Protocol extends _i1.SerializationManagerServer {
     switch (data) {
       case _i5.Greeting():
         return 'Greeting';
-      case _i6.Priority():
+      case _i6.Config():
+        return 'Config';
+      case _i7.ConfigThemeMode():
+        return 'ConfigThemeMode';
+      case _i8.Priority():
         return 'Priority';
-      case _i7.Todo():
+      case _i9.Todo():
         return 'Todo';
     }
     className = _i2.Protocol().getClassNameForObject(data);
@@ -208,11 +279,17 @@ class Protocol extends _i1.SerializationManagerServer {
     if (dataClassName == 'Greeting') {
       return deserialize<_i5.Greeting>(data['data']);
     }
+    if (dataClassName == 'Config') {
+      return deserialize<_i6.Config>(data['data']);
+    }
+    if (dataClassName == 'ConfigThemeMode') {
+      return deserialize<_i7.ConfigThemeMode>(data['data']);
+    }
     if (dataClassName == 'Priority') {
-      return deserialize<_i6.Priority>(data['data']);
+      return deserialize<_i8.Priority>(data['data']);
     }
     if (dataClassName == 'Todo') {
-      return deserialize<_i7.Todo>(data['data']);
+      return deserialize<_i9.Todo>(data['data']);
     }
     if (dataClassName.startsWith('serverpod.')) {
       data['className'] = dataClassName.substring(10);
@@ -250,8 +327,10 @@ class Protocol extends _i1.SerializationManagerServer {
       }
     }
     switch (t) {
-      case _i7.Todo:
-        return _i7.Todo.t;
+      case _i6.Config:
+        return _i6.Config.t;
+      case _i9.Todo:
+        return _i9.Todo.t;
     }
     return null;
   }

@@ -13,55 +13,26 @@ class TodoListEntry extends ConsumerWidget {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Card(
-        child: Row(
-          children: [
-            Expanded(
-              child: Column(
-                children: [
-                  Text(todo.title),
-                  Text(todo.description ?? ""),
-                  _getBadge(todo),
-                ],
-              ),
-            ),
-            GhostButton(child: Icon(LucideIcons.trash2)),
-          ],
+        child: Basic(
+          title: Text(todo.title).h4,
+          subtitle: Text(todo.description ?? "").base,
+          content: Padding(
+            padding: const EdgeInsets.only(top: 4.0),
+            child: _getBadge(todo),
+          ),
+          trailing: GhostButton(
+            child: Icon(LucideIcons.trash2),
+          ),
         ),
-        //     title: Text(todo.title),
-        //     description: Padding(
-        //       padding: const EdgeInsets.only(top: 8.0),
-        //       child: Row(
-        //         children: [
-        //           PriorityBadge(todo),
-        //           SizedBox(
-        //             width: 16,
-        //           ),
-        //           Text(todo.description ?? ""),
-        //         ],
-        //       ),
-        //     ),
-        //     trailing: ShadIconButton.ghost(
-        //       icon: Icon(LucideIcons.trash2),
-        //       iconSize: 32,
-        //     ),
-        //   ),
       ),
     );
   }
 
-  IconData getIcon(Priority priority) {
-    switch (priority) {
-      case Priority.low:
-        return Icons.info_outline;
-      case Priority.medium:
-        return Icons.warning_amber;
-      case Priority.high:
-        return Icons.error_outline;
-    }
-  }
-
-  AuroraBadge _getBadge(Todo todo) {
+  Widget _getBadge(Todo todo) {
     final label = Text(todo.priority.displayName);
+    if (todo.isCompleted) {
+      return SecondaryBadge(child: label);
+    }
     switch (todo.priority) {
       case Priority.low:
         return AuroraBadge.success(child: label);

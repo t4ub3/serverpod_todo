@@ -11,6 +11,11 @@ jwtRefresh:
   - refreshAccessToken:
 greeting:
   - hello:
+settings:
+  - getAll:
+  - getById:
+  - add:
+  - deleteSingle:
 todo:
   - getAll:
   - getById:

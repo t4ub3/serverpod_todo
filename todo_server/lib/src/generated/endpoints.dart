@@ -14,13 +14,15 @@ import 'package:serverpod/serverpod.dart' as _i1;
 import '../auth/email_idp_endpoint.dart' as _i2;
 import '../auth/jwt_refresh_endpoint.dart' as _i3;
 import '../greetings/greeting_endpoint.dart' as _i4;
-import '../todos/todo_endpoint.dart' as _i5;
-import 'package:todo_server/src/generated/todos/priority.dart' as _i6;
-import 'package:todo_server/src/generated/todos/todo.dart' as _i7;
+import '../settings/settings_endpoint.dart' as _i5;
+import '../todos/todo_endpoint.dart' as _i6;
+import 'package:todo_server/src/generated/settings/config.dart' as _i7;
+import 'package:todo_server/src/generated/todos/priority.dart' as _i8;
+import 'package:todo_server/src/generated/todos/todo.dart' as _i9;
 import 'package:serverpod_auth_idp_server/serverpod_auth_idp_server.dart'
-    as _i8;
+    as _i10;
 import 'package:serverpod_auth_core_server/serverpod_auth_core_server.dart'
-    as _i9;
+    as _i11;
 
 class Endpoints extends _i1.EndpointDispatch {
   @override
@@ -44,7 +46,13 @@ class Endpoints extends _i1.EndpointDispatch {
           'greeting',
           null,
         ),
-      'todo': _i5.TodoEndpoint()
+      'settings': _i5.SettingsEndpoint()
+        ..initialize(
+          server,
+          'settings',
+          null,
+        ),
+      'todo': _i6.TodoEndpoint()
         ..initialize(
           server,
           'todo',
@@ -279,9 +287,9 @@ class Endpoints extends _i1.EndpointDispatch {
         ),
       },
     );
-    connectors['todo'] = _i1.EndpointConnector(
-      name: 'todo',
-      endpoint: endpoints['todo']!,
+    connectors['settings'] = _i1.EndpointConnector(
+      name: 'settings',
+      endpoint: endpoints['settings']!,
       methodConnectors: {
         'getAll': _i1.MethodConnector(
           name: 'getAll',
@@ -290,8 +298,9 @@ class Endpoints extends _i1.EndpointDispatch {
               (
                 _i1.Session session,
                 Map<String, dynamic> params,
-              ) async =>
-                  (endpoints['todo'] as _i5.TodoEndpoint).getAll(session),
+              ) async => (endpoints['settings'] as _i5.SettingsEndpoint).getAll(
+                session,
+              ),
         ),
         'getById': _i1.MethodConnector(
           name: 'getById',
@@ -306,7 +315,79 @@ class Endpoints extends _i1.EndpointDispatch {
               (
                 _i1.Session session,
                 Map<String, dynamic> params,
-              ) async => (endpoints['todo'] as _i5.TodoEndpoint).getById(
+              ) async =>
+                  (endpoints['settings'] as _i5.SettingsEndpoint).getById(
+                    session,
+                    params['id'],
+                  ),
+        ),
+        'add': _i1.MethodConnector(
+          name: 'add',
+          params: {
+            'config': _i1.ParameterDescription(
+              name: 'config',
+              type: _i1.getType<_i7.Config>(),
+              nullable: false,
+            ),
+          },
+          call:
+              (
+                _i1.Session session,
+                Map<String, dynamic> params,
+              ) async => (endpoints['settings'] as _i5.SettingsEndpoint).add(
+                session,
+                params['config'],
+              ),
+        ),
+        'deleteSingle': _i1.MethodConnector(
+          name: 'deleteSingle',
+          params: {
+            'config': _i1.ParameterDescription(
+              name: 'config',
+              type: _i1.getType<_i7.Config>(),
+              nullable: false,
+            ),
+          },
+          call:
+              (
+                _i1.Session session,
+                Map<String, dynamic> params,
+              ) async =>
+                  (endpoints['settings'] as _i5.SettingsEndpoint).deleteSingle(
+                    session,
+                    params['config'],
+                  ),
+        ),
+      },
+    );
+    connectors['todo'] = _i1.EndpointConnector(
+      name: 'todo',
+      endpoint: endpoints['todo']!,
+      methodConnectors: {
+        'getAll': _i1.MethodConnector(
+          name: 'getAll',
+          params: {},
+          call:
+              (
+                _i1.Session session,
+                Map<String, dynamic> params,
+              ) async =>
+                  (endpoints['todo'] as _i6.TodoEndpoint).getAll(session),
+        ),
+        'getById': _i1.MethodConnector(
+          name: 'getById',
+          params: {
+            'id': _i1.ParameterDescription(
+              name: 'id',
+              type: _i1.getType<int>(),
+              nullable: false,
+            ),
+          },
+          call:
+              (
+                _i1.Session session,
+                Map<String, dynamic> params,
+              ) async => (endpoints['todo'] as _i6.TodoEndpoint).getById(
                 session,
                 params['id'],
               ),
@@ -316,7 +397,7 @@ class Endpoints extends _i1.EndpointDispatch {
           params: {
             'priorities': _i1.ParameterDescription(
               name: 'priorities',
-              type: _i1.getType<List<_i6.Priority>>(),
+              type: _i1.getType<List<_i8.Priority>>(),
               nullable: false,
             ),
           },
@@ -325,7 +406,7 @@ class Endpoints extends _i1.EndpointDispatch {
                 _i1.Session session,
                 Map<String, dynamic> params,
               ) async =>
-                  (endpoints['todo'] as _i5.TodoEndpoint).getByPriorities(
+                  (endpoints['todo'] as _i6.TodoEndpoint).getByPriorities(
                     session,
                     params['priorities'],
                   ),
@@ -335,7 +416,7 @@ class Endpoints extends _i1.EndpointDispatch {
           params: {
             'todo': _i1.ParameterDescription(
               name: 'todo',
-              type: _i1.getType<_i7.Todo>(),
+              type: _i1.getType<_i9.Todo>(),
               nullable: false,
             ),
           },
@@ -343,7 +424,7 @@ class Endpoints extends _i1.EndpointDispatch {
               (
                 _i1.Session session,
                 Map<String, dynamic> params,
-              ) async => (endpoints['todo'] as _i5.TodoEndpoint).add(
+              ) async => (endpoints['todo'] as _i6.TodoEndpoint).add(
                 session,
                 params['todo'],
               ),
@@ -353,7 +434,7 @@ class Endpoints extends _i1.EndpointDispatch {
           params: {
             'todo': _i1.ParameterDescription(
               name: 'todo',
-              type: _i1.getType<_i7.Todo>(),
+              type: _i1.getType<_i9.Todo>(),
               nullable: false,
             ),
           },
@@ -362,7 +443,7 @@ class Endpoints extends _i1.EndpointDispatch {
                 _i1.Session session,
                 Map<String, dynamic> params,
               ) async =>
-                  (endpoints['todo'] as _i5.TodoEndpoint).updateOrAddIfNotExist(
+                  (endpoints['todo'] as _i6.TodoEndpoint).updateOrAddIfNotExist(
                     session,
                     params['todo'],
                   ),
@@ -372,7 +453,7 @@ class Endpoints extends _i1.EndpointDispatch {
           params: {
             'todo': _i1.ParameterDescription(
               name: 'todo',
-              type: _i1.getType<_i7.Todo>(),
+              type: _i1.getType<_i9.Todo>(),
               nullable: false,
             ),
           },
@@ -380,16 +461,16 @@ class Endpoints extends _i1.EndpointDispatch {
               (
                 _i1.Session session,
                 Map<String, dynamic> params,
-              ) async => (endpoints['todo'] as _i5.TodoEndpoint).toggleTodo(
+              ) async => (endpoints['todo'] as _i6.TodoEndpoint).toggleTodo(
                 session,
                 params['todo'],
               ),
         ),
       },
     );
-    modules['serverpod_auth_idp'] = _i8.Endpoints()
+    modules['serverpod_auth_idp'] = _i10.Endpoints()
       ..initializeEndpoints(server);
-    modules['serverpod_auth_core'] = _i9.Endpoints()
+    modules['serverpod_auth_core'] = _i11.Endpoints()
       ..initializeEndpoints(server);
   }
 }

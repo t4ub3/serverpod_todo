@@ -17,8 +17,9 @@ import 'dart:async' as _i3;
 import 'package:serverpod_auth_core_server/serverpod_auth_core_server.dart'
     as _i4;
 import 'package:todo_server/src/generated/greetings/greeting.dart' as _i5;
-import 'package:todo_server/src/generated/todos/todo.dart' as _i6;
-import 'package:todo_server/src/generated/todos/priority.dart' as _i7;
+import 'package:todo_server/src/generated/settings/config.dart' as _i6;
+import 'package:todo_server/src/generated/todos/todo.dart' as _i7;
+import 'package:todo_server/src/generated/todos/priority.dart' as _i8;
 import 'package:todo_server/src/generated/protocol.dart';
 import 'package:todo_server/src/generated/endpoints.dart';
 export 'package:serverpod_test/serverpod_test_public_exports.dart';
@@ -139,6 +140,8 @@ class TestEndpoints {
 
   late final _GreetingEndpoint greeting;
 
+  late final _SettingsEndpoint settings;
+
   late final _TodoEndpoint todo;
 }
 
@@ -158,6 +161,10 @@ class _InternalTestEndpoints extends TestEndpoints
       serializationManager,
     );
     greeting = _GreetingEndpoint(
+      endpoints,
+      serializationManager,
+    );
+    settings = _SettingsEndpoint(
       endpoints,
       serializationManager,
     );
@@ -528,6 +535,140 @@ class _GreetingEndpoint {
   }
 }
 
+class _SettingsEndpoint {
+  _SettingsEndpoint(
+    this._endpointDispatch,
+    this._serializationManager,
+  );
+
+  final _i2.EndpointDispatch _endpointDispatch;
+
+  final _i2.SerializationManager _serializationManager;
+
+  _i3.Future<List<_i6.Config>> getAll(
+    _i1.TestSessionBuilder sessionBuilder,
+  ) async {
+    return _i1.callAwaitableFunctionAndHandleExceptions(() async {
+      var _localUniqueSession =
+          (sessionBuilder as _i1.InternalTestSessionBuilder).internalBuild(
+            endpoint: 'settings',
+            method: 'getAll',
+          );
+      try {
+        var _localCallContext = await _endpointDispatch.getMethodCallContext(
+          createSessionCallback: (_) => _localUniqueSession,
+          endpointPath: 'settings',
+          methodName: 'getAll',
+          parameters: _i1.testObjectToJson({}),
+          serializationManager: _serializationManager,
+        );
+        var _localReturnValue =
+            await (_localCallContext.method.call(
+                  _localUniqueSession,
+                  _localCallContext.arguments,
+                )
+                as _i3.Future<List<_i6.Config>>);
+        return _localReturnValue;
+      } finally {
+        await _localUniqueSession.close();
+      }
+    });
+  }
+
+  _i3.Future<_i6.Config?> getById(
+    _i1.TestSessionBuilder sessionBuilder,
+    int id,
+  ) async {
+    return _i1.callAwaitableFunctionAndHandleExceptions(() async {
+      var _localUniqueSession =
+          (sessionBuilder as _i1.InternalTestSessionBuilder).internalBuild(
+            endpoint: 'settings',
+            method: 'getById',
+          );
+      try {
+        var _localCallContext = await _endpointDispatch.getMethodCallContext(
+          createSessionCallback: (_) => _localUniqueSession,
+          endpointPath: 'settings',
+          methodName: 'getById',
+          parameters: _i1.testObjectToJson({'id': id}),
+          serializationManager: _serializationManager,
+        );
+        var _localReturnValue =
+            await (_localCallContext.method.call(
+                  _localUniqueSession,
+                  _localCallContext.arguments,
+                )
+                as _i3.Future<_i6.Config?>);
+        return _localReturnValue;
+      } finally {
+        await _localUniqueSession.close();
+      }
+    });
+  }
+
+  _i3.Future<_i6.Config> add(
+    _i1.TestSessionBuilder sessionBuilder,
+    _i6.Config config,
+  ) async {
+    return _i1.callAwaitableFunctionAndHandleExceptions(() async {
+      var _localUniqueSession =
+          (sessionBuilder as _i1.InternalTestSessionBuilder).internalBuild(
+            endpoint: 'settings',
+            method: 'add',
+          );
+      try {
+        var _localCallContext = await _endpointDispatch.getMethodCallContext(
+          createSessionCallback: (_) => _localUniqueSession,
+          endpointPath: 'settings',
+          methodName: 'add',
+          parameters: _i1.testObjectToJson({'config': config}),
+          serializationManager: _serializationManager,
+        );
+        var _localReturnValue =
+            await (_localCallContext.method.call(
+                  _localUniqueSession,
+                  _localCallContext.arguments,
+                )
+                as _i3.Future<_i6.Config>);
+        return _localReturnValue;
+      } finally {
+        await _localUniqueSession.close();
+      }
+    });
+  }
+
+  _i3.Future<_i6.Config> deleteSingle(
+    _i1.TestSessionBuilder sessionBuilder,
+    _i6.Config config,
+  ) async {
+    return _i1.callAwaitableFunctionAndHandleExceptions(() async {
+      var _localUniqueSession =
+          (sessionBuilder as _i1.InternalTestSessionBuilder).internalBuild(
+            endpoint: 'settings',
+            method: 'deleteSingle',
+          );
+      try {
+        var _localCallContext = await _endpointDispatch.getMethodCallContext(
+          createSessionCallback: (_) => _localUniqueSession,
+          endpointPath: 'settings',
+          methodName: 'deleteSingle',
+          parameters: _i1.testObjectToJson({'config': config}),
+          serializationManager: _serializationManager,
+        );
+        var _localReturnValue =
+            await (_localCallContext.method.call(
+                  _localUniqueSession,
+                  _localCallContext.arguments,
+                )
+                as _i3.Future<_i6.Config>);
+        return _localReturnValue;
+      } finally {
+        await _localUniqueSession.close();
+      }
+    });
+  }
+}
+
 class _TodoEndpoint {
   _TodoEndpoint(
     this._endpointDispatch,
@@ -538,7 +679,7 @@ class _TodoEndpoint {
 
   final _i2.SerializationManager _serializationManager;
 
-  _i3.Future<List<_i6.Todo>> getAll(
+  _i3.Future<List<_i7.Todo>> getAll(
     _i1.TestSessionBuilder sessionBuilder,
   ) async {
     return _i1.callAwaitableFunctionAndHandleExceptions(() async {
@@ -560,7 +701,7 @@ class _TodoEndpoint {
                   _localUniqueSession,
                   _localCallContext.arguments,
                 )
-                as _i3.Future<List<_i6.Todo>>);
+                as _i3.Future<List<_i7.Todo>>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -568,7 +709,7 @@ class _TodoEndpoint {
     });
   }
 
-  _i3.Future<_i6.Todo?> getById(
+  _i3.Future<_i7.Todo?> getById(
     _i1.TestSessionBuilder sessionBuilder,
     int id,
   ) async {
@@ -591,7 +732,7 @@ class _TodoEndpoint {
                   _localUniqueSession,
                   _localCallContext.arguments,
                 )
-                as _i3.Future<_i6.Todo?>);
+                as _i3.Future<_i7.Todo?>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -599,9 +740,9 @@ class _TodoEndpoint {
     });
   }
 
-  _i3.Future<List<_i6.Todo>> getByPriorities(
+  _i3.Future<List<_i7.Todo>> getByPriorities(
     _i1.TestSessionBuilder sessionBuilder,
-    List<_i7.Priority> priorities,
+    List<_i8.Priority> priorities,
   ) async {
     return _i1.callAwaitableFunctionAndHandleExceptions(() async {
       var _localUniqueSession =
@@ -622,7 +763,7 @@ class _TodoEndpoint {
                   _localUniqueSession,
                   _localCallContext.arguments,
                 )
-                as _i3.Future<List<_i6.Todo>>);
+                as _i3.Future<List<_i7.Todo>>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -630,9 +771,9 @@ class _TodoEndpoint {
     });
   }
 
-  _i3.Future<_i6.Todo> add(
+  _i3.Future<_i7.Todo> add(
     _i1.TestSessionBuilder sessionBuilder,
-    _i6.Todo todo,
+    _i7.Todo todo,
   ) async {
     return _i1.callAwaitableFunctionAndHandleExceptions(() async {
       var _localUniqueSession =
@@ -653,7 +794,7 @@ class _TodoEndpoint {
                   _localUniqueSession,
                   _localCallContext.arguments,
                 )
-                as _i3.Future<_i6.Todo>);
+                as _i3.Future<_i7.Todo>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -661,9 +802,9 @@ class _TodoEndpoint {
     });
   }
 
-  _i3.Future<_i6.Todo> updateOrAddIfNotExist(
+  _i3.Future<_i7.Todo> updateOrAddIfNotExist(
     _i1.TestSessionBuilder sessionBuilder,
-    _i6.Todo todo,
+    _i7.Todo todo,
   ) async {
     return _i1.callAwaitableFunctionAndHandleExceptions(() async {
       var _localUniqueSession =
@@ -684,7 +825,7 @@ class _TodoEndpoint {
                   _localUniqueSession,
                   _localCallContext.arguments,
                 )
-                as _i3.Future<_i6.Todo>);
+                as _i3.Future<_i7.Todo>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -692,9 +833,9 @@ class _TodoEndpoint {
     });
   }
 
-  _i3.Future<_i6.Todo> toggleTodo(
+  _i3.Future<_i7.Todo> toggleTodo(
     _i1.TestSessionBuilder sessionBuilder,
-    _i6.Todo todo,
+    _i7.Todo todo,
   ) async {
     return _i1.callAwaitableFunctionAndHandleExceptions(() async {
       var _localUniqueSession =
@@ -715,7 +856,7 @@ class _TodoEndpoint {
                   _localUniqueSession,
                   _localCallContext.arguments,
                 )
-                as _i3.Future<_i6.Todo>);
+                as _i3.Future<_i7.Todo>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();

@@ -25,6 +25,9 @@ abstract final class Nord {
   static const polarNight1 = Color(0xFF3B4252); // nord1  – elevated surface
   static const polarNight2 = Color(0xFF434C5E); // nord2  – active / selection
   static const polarNight3 = Color(0xFF4C566A); // nord3  – borders / dim text
+  static const polarNight4 = Color(
+    0xFF7B88A1,
+  ); // custom Color for more contrast
 
   // Snow Storm — light base tones (backgrounds, text in dark mode).
   static const snowStorm0 = Color(0xFFD8DEE9); // nord4  – borders / subtle
@@ -97,7 +100,7 @@ const nordDarkColorScheme = ColorScheme(
   // nord3 is Nord's "comment" tone — intentionally low-contrast on nord0.
   // If placeholders/secondary labels feel too dim for accessibility, lift this
   // toward Snow Storm, e.g. const Color(0xFF7B88A1) (an off-palette mid-grey).
-  mutedForeground: Nord.polarNight3, // nord3
+  mutedForeground: Nord.polarNight4, // nord3
   accent: Nord.polarNight2, // nord2 (hover surfaces)
   accentForeground: Nord.snowStorm0,
   destructive: Nord.auroraRed, // nord11
@@ -134,8 +137,14 @@ extension ShadColorsContext on BuildContext {
 
 /// Ready-made ThemeData. `radius` (0.5) and `scaling` (1) keep shadcn_flutter's
 /// defaults — adjust `radius` if you want sharper or rounder components.
-const nordLightTheme = ThemeData(colorScheme: nordLightColorScheme);
-const nordDarkTheme = ThemeData(colorScheme: nordDarkColorScheme);
+const nordLightTheme = ThemeData(
+  colorScheme: nordLightColorScheme,
+  density: Density.reducedDensity,
+);
+const nordDarkTheme = ThemeData(
+  colorScheme: nordDarkColorScheme,
+  density: Density.reducedDensity,
+);
 
 /// Drop-in usage. Providing both `theme` and `darkTheme` lets ShadcnApp follow
 /// the OS brightness automatically (themeMode defaults to ThemeMode.system) —

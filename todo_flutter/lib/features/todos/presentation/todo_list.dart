@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shadcn_flutter/shadcn_flutter.dart';
 import 'package:todo_client/todo_client.dart';
 import 'package:todo_flutter/features/todos/application/todo_list_provider.dart';
 import 'package:todo_flutter/features/todos/presentation/create_todo_dialog.dart';
@@ -17,12 +17,12 @@ class TodoList extends ConsumerWidget {
     final items = <TodoListItem>[];
 
     if (openTodos.isNotEmpty) {
-      items.add(TodoHeaderItem('Open todos'));
+      items.add(TodoHeaderItem('Open'));
       items.addAll(openTodos.map(TodoEntryItem.new));
     }
 
     if (completedTodos.isNotEmpty) {
-      items.add(TodoHeaderItem('Completed todos'));
+      items.add(TodoHeaderItem('Completed'));
       items.addAll(completedTodos.map(TodoEntryItem.new));
     }
 
@@ -34,10 +34,34 @@ class TodoList extends ConsumerWidget {
     final todos = ref.watch(todoListProvider);
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text("TODOS"),
-      ),
-      body: todos.when(
+      headers: [
+        AppBar(
+          title: Text("TODOS"),
+          backgroundColor: Theme.of(context).colorScheme.primary,
+        ),
+      ],
+      footers: [
+        const Divider(),
+        NavigationBar(
+          children: [
+            NavigationItem(
+              key: key,
+              child: Icon(Icons.add),
+            ),
+            PrimaryButton(
+              onPressed: () {
+                showDialog(
+                  barrierDismissible: false,
+                  context: context,
+                  builder: (context) => CreateTodoDialog(),
+                );
+              },
+              child: Icon(Icons.add),
+            ),
+          ],
+        ),
+      ],
+      child: todos.when(
         data: (todos) {
           if (todos.isEmpty) {
             return Center(child: Text("Keine Todos"));
@@ -65,16 +89,6 @@ class TodoList extends ConsumerWidget {
         loading: () {
           return Center(child: CircularProgressIndicator());
         },
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          showDialog(
-            barrierDismissible: false,
-            context: context,
-            builder: (context) => CreateTodoDialog(),
-          );
-        },
-        child: Icon(Icons.add),
       ),
     );
   }

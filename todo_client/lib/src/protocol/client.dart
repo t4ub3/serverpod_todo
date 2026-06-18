@@ -17,9 +17,10 @@ import 'dart:async' as _i3;
 import 'package:serverpod_auth_core_client/serverpod_auth_core_client.dart'
     as _i4;
 import 'package:todo_client/src/protocol/greetings/greeting.dart' as _i5;
-import 'package:todo_client/src/protocol/todos/todo.dart' as _i6;
-import 'package:todo_client/src/protocol/todos/priority.dart' as _i7;
-import 'protocol.dart' as _i8;
+import 'package:todo_client/src/protocol/settings/config.dart' as _i6;
+import 'package:todo_client/src/protocol/todos/todo.dart' as _i7;
+import 'package:todo_client/src/protocol/todos/priority.dart' as _i8;
+import 'protocol.dart' as _i9;
 
 /// By extending [EmailIdpBaseEndpoint], the email identity provider endpoints
 /// are made available on the server and enable the corresponding sign-in widget
@@ -261,48 +262,84 @@ class EndpointGreeting extends _i2.EndpointRef {
 }
 
 /// {@category Endpoint}
+class EndpointSettings extends _i2.EndpointRef {
+  EndpointSettings(_i2.EndpointCaller caller) : super(caller);
+
+  @override
+  String get name => 'settings';
+
+  _i3.Future<List<_i6.Config>> getAll() =>
+      caller.callServerEndpoint<List<_i6.Config>>(
+        'settings',
+        'getAll',
+        {},
+      );
+
+  _i3.Future<_i6.Config?> getById(int id) =>
+      caller.callServerEndpoint<_i6.Config?>(
+        'settings',
+        'getById',
+        {'id': id},
+      );
+
+  _i3.Future<_i6.Config> add(_i6.Config config) =>
+      caller.callServerEndpoint<_i6.Config>(
+        'settings',
+        'add',
+        {'config': config},
+      );
+
+  _i3.Future<_i6.Config> deleteSingle(_i6.Config config) =>
+      caller.callServerEndpoint<_i6.Config>(
+        'settings',
+        'deleteSingle',
+        {'config': config},
+      );
+}
+
+/// {@category Endpoint}
 class EndpointTodo extends _i2.EndpointRef {
   EndpointTodo(_i2.EndpointCaller caller) : super(caller);
 
   @override
   String get name => 'todo';
 
-  _i3.Future<List<_i6.Todo>> getAll() =>
-      caller.callServerEndpoint<List<_i6.Todo>>(
+  _i3.Future<List<_i7.Todo>> getAll() =>
+      caller.callServerEndpoint<List<_i7.Todo>>(
         'todo',
         'getAll',
         {},
       );
 
-  _i3.Future<_i6.Todo?> getById(int id) => caller.callServerEndpoint<_i6.Todo?>(
+  _i3.Future<_i7.Todo?> getById(int id) => caller.callServerEndpoint<_i7.Todo?>(
     'todo',
     'getById',
     {'id': id},
   );
 
-  _i3.Future<List<_i6.Todo>> getByPriorities(List<_i7.Priority> priorities) =>
-      caller.callServerEndpoint<List<_i6.Todo>>(
+  _i3.Future<List<_i7.Todo>> getByPriorities(List<_i8.Priority> priorities) =>
+      caller.callServerEndpoint<List<_i7.Todo>>(
         'todo',
         'getByPriorities',
         {'priorities': priorities},
       );
 
-  _i3.Future<_i6.Todo> add(_i6.Todo todo) =>
-      caller.callServerEndpoint<_i6.Todo>(
+  _i3.Future<_i7.Todo> add(_i7.Todo todo) =>
+      caller.callServerEndpoint<_i7.Todo>(
         'todo',
         'add',
         {'todo': todo},
       );
 
-  _i3.Future<_i6.Todo> updateOrAddIfNotExist(_i6.Todo todo) =>
-      caller.callServerEndpoint<_i6.Todo>(
+  _i3.Future<_i7.Todo> updateOrAddIfNotExist(_i7.Todo todo) =>
+      caller.callServerEndpoint<_i7.Todo>(
         'todo',
         'updateOrAddIfNotExist',
         {'todo': todo},
       );
 
-  _i3.Future<_i6.Todo> toggleTodo(_i6.Todo todo) =>
-      caller.callServerEndpoint<_i6.Todo>(
+  _i3.Future<_i7.Todo> toggleTodo(_i7.Todo todo) =>
+      caller.callServerEndpoint<_i7.Todo>(
         'todo',
         'toggleTodo',
         {'todo': todo},
@@ -340,7 +377,7 @@ class Client extends _i2.ServerpodClientShared {
     bool? disconnectStreamsOnLostInternetConnection,
   }) : super(
          host,
-         _i8.Protocol(),
+         _i9.Protocol(),
          securityContext: securityContext,
          streamingConnectionTimeout: streamingConnectionTimeout,
          connectionTimeout: connectionTimeout,
@@ -352,6 +389,7 @@ class Client extends _i2.ServerpodClientShared {
     emailIdp = EndpointEmailIdp(this);
     jwtRefresh = EndpointJwtRefresh(this);
     greeting = EndpointGreeting(this);
+    settings = EndpointSettings(this);
     todo = EndpointTodo(this);
     modules = Modules(this);
   }
@@ -362,6 +400,8 @@ class Client extends _i2.ServerpodClientShared {
 
   late final EndpointGreeting greeting;
 
+  late final EndpointSettings settings;
+
   late final EndpointTodo todo;
 
   late final Modules modules;
@@ -371,6 +411,7 @@ class Client extends _i2.ServerpodClientShared {
     'emailIdp': emailIdp,
     'jwtRefresh': jwtRefresh,
     'greeting': greeting,
+    'settings': settings,
     'todo': todo,
   };
 

@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shadcn_flutter/shadcn_flutter.dart';
 import 'package:todo_client/todo_client.dart';
 import 'package:serverpod_flutter/serverpod_flutter.dart';
+import 'package:todo_flutter/core/router/router.dart';
 import 'package:todo_flutter/core/serverpod_client.dart';
 import 'package:todo_flutter/core/theme/shadcn_nord_color_theme.dart';
 import 'package:todo_flutter/features/todos/presentation/todo_list.dart';
@@ -30,12 +31,13 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ShadcnApp(
+    return ShadcnApp.router(
       debugShowCheckedModeBanner: false,
       title: 'Todo',
       theme: nordLightTheme,
       darkTheme: nordDarkTheme,
-      home: const TodoList(),
+      themeMode: ThemeMode.light,
+      routerConfig: router,
     );
   }
 }
