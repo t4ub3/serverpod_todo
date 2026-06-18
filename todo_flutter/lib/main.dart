@@ -1,10 +1,9 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:shadcn_ui/shadcn_ui.dart';
+import 'package:shadcn_flutter/shadcn_flutter.dart';
 import 'package:todo_client/todo_client.dart';
-import 'package:flutter/material.dart';
 import 'package:serverpod_flutter/serverpod_flutter.dart';
 import 'package:todo_flutter/core/serverpod_client.dart';
-import 'package:todo_flutter/core/theme/nord_color_scheme.dart';
+import 'package:todo_flutter/core/theme/shadcn_nord_color_theme.dart';
 import 'package:todo_flutter/features/todos/presentation/todo_list.dart';
 
 late final Client client;
@@ -31,18 +30,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ShadApp(
+    return ShadcnApp(
       debugShowCheckedModeBanner: false,
       title: 'Todo',
-      theme: ShadThemeData(
-        brightness: Brightness.light,
-        colorScheme: nordLightColorScheme,
-      ),
-      darkTheme: ShadThemeData(
-        brightness: Brightness.dark,
-        colorScheme: nordDarkColorScheme,
-      ),
-      themeMode: ThemeMode.light,
+      theme: nordLightTheme,
+      darkTheme: nordDarkTheme,
       home: const TodoList(),
     );
   }
