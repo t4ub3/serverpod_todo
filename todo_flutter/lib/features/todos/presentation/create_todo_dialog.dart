@@ -11,99 +11,73 @@ class CreateTodoDialog extends ConsumerStatefulWidget {
 }
 
 class _CreateTodoDialogState extends ConsumerState<CreateTodoDialog> {
-  late final _formController = FormController();
-  late final _titleController = TextEditingController();
-  late final _descriptionController = TextEditingController();
+  final _titleKey = TextFieldKey("title");
+  final _descriptionKey = TextFieldKey("description");
+  final _priorityKey = RadioGroupKey("priority");
 
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
-      title: const Text("Create todo"),
-      actions: [
-        Button.outline(
-          child: const Text('Cancel'),
-          onPressed: () => Navigator.pop(context),
-        ),
-        Button.primary(
-          child: const Text('Submit'),
-          onPressed: () {
-            if (true) {
-              final newTodo = Todo(
-                title: _titleController.text,
-                description: _descriptionController.text,
-                isCompleted: false,
-                priority: Priority.low,
-                // priority: _priorityController.value ?? Priority.low,
-              );
-              ref.read(todoListProvider.notifier).addTodo(newTodo);
-              Navigator.pop(context);
-            }
+    return ConstrainedBox(
+      constraints: const BoxConstraints(maxWidth: 350),
+      child: AlertDialog(
+        title: const Text("Create todo"),
+        content: Form(
+          onSubmit: (context, values) {
+            final newTodo = Todo(
+              title: _titleKey[values]!,
+              description: _descriptionKey[values],
+              isCompleted: false,
+              priority: Priority.low,
+            );
+
+            ref.read(todoListProvider.notifier).addTodo(newTodo);
+            Navigator.pop(context);
           },
-        ),
-      ],
-      content: Center(
-        child: Form(
-          controller: _formController,
-          child: const FormTableLayout(
-            rows: [
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
               FormField<String>(
-                key: FormKey(#title),
+                key: _titleKey,
                 label: Text('Title'),
+                validator: NotEmptyValidator(),
                 child: TextField(
-                  initialValue: 'What do you need to do?',
+                  placeholder: Text('What do you need to do?'),
                   autofocus: true,
                 ),
               ),
               FormField<String>(
-                key: FormKey(#description),
+                key: _descriptionKey,
                 label: Text('Description'),
                 child: TextField(
-                  initialValue: 'More details needed?',
+                  placeholder: Text('More details needed?'),
                 ),
+              ),
+              const Gap(16),
+              const Divider(),
+              const Gap(16),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Button.outline(
+                    child: const Text('Cancel'),
+                    onPressed: () => Navigator.pop(context),
+                  ),
+                  const Gap(16),
+                  FormErrorBuilder(
+                    builder: (context, errors, child) {
+                      return Button.primary(
+                        onPressed: errors.isEmpty
+                            ? () => context.submitForm()
+                            : null,
+                        child: const Text('Submit'),
+                      );
+                    },
+                  ),
+                ],
               ),
             ],
           ),
-        ).withPadding(vertical: 16),
-        //   child: ConstrainedBox(
-        //     constraints: const BoxConstraints(maxWidth: 350),
-        //     child: Column(
-        //       crossAxisAlignment: CrossAxisAlignment.start,
-        //       mainAxisSize: MainAxisSize.min,
-        //       children: [
-        //         ShadInputFormField(
-        //           controller: _titleController,
-        //           id: "title",
-        //           label: const Text("Title"),
-        //           placeholder: const Text("What do you need to do?"),
-        //           validator: (v) {
-        //             if (v.length < 2) {
-        //               return "Title is required";
-        //             }
-        //             return null;
-        //           },
-        //         ),
-        //         const SizedBox(height: 16),
-        //         ShadInputFormField(
-        //           controller: _descriptionController,
-        //           id: "description",
-        //           label: const Text("Description"),
-        //           placeholder: const Text("More details needed?"),
-        //         ),
-        //         const SizedBox(height: 16),
-        //         ShadRadioGroupFormField<Priority>(
-        //           controller: _priorityController,
-        //           label: Text("Select priority"),
-        //           items: Priority.values.map(
-        //             (p) => ShadRadio(
-        //               value: p,
-        //               label: Text(p.displayName),
-        //             ),
-        //           ),
-        //         ),
-        //         const SizedBox(height: 16),
-        //       ],
-        //     ),
-        //   ),
+        ),
       ),
     );
   }
