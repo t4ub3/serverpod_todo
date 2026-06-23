@@ -5,6 +5,7 @@ import 'package:todo_flutter/features/settings/presentation/settings_screen.dart
 import 'package:todo_flutter/features/todos/presentation/todo_list.dart';
 
 final GoRouter router = GoRouter(
+  debugLogDiagnostics: true,
   initialLocation: "/home",
   routes: [
     StatefulShellRoute.indexedStack(
