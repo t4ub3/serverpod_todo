@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
       title: 'Todo',
       theme: nordLightTheme,
       darkTheme: nordDarkTheme,
-      themeMode: ThemeMode.light,
+      themeMode: ThemeMode.dark,
       routerConfig: router,
     );
   }
