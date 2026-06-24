@@ -8,6 +8,7 @@ import 'package:go_router/go_router.dart';
 part 'router.g.dart';
 
 final GoRouter router = GoRouter(
+  debugLogDiagnostics: true,
   initialLocation: "/home",
   routes: [
     StatefulShellRoute.indexedStack(
