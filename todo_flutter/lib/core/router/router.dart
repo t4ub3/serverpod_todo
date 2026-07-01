@@ -4,6 +4,9 @@ import 'package:todo_flutter/core/router/navigation_scaffold.dart';
 import 'package:todo_flutter/features/settings/presentation/settings_screen.dart';
 import 'package:todo_flutter/features/todos/presentation/create_todo_screen.dart';
 import 'package:todo_flutter/features/todos/presentation/todo_list.dart';
+import 'package:go_router/go_router.dart';
+
+part 'router.g.dart';
 
 final GoRouter router = GoRouter(
   debugLogDiagnostics: true,
@@ -48,3 +51,10 @@ final GoRouter router = GoRouter(
     ),
   ],
 );
+
+class TodoListRoute extends GoRouteData with $TodoListRoute {
+  const TodoListRoute();
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) => const TodoList();
+}
