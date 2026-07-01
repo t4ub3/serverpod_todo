@@ -11,8 +11,13 @@ class TodoListSectionHeader extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(title).muted,
-          const Divider(),
+          Text(
+            title,
+            style: TextStyle(fontSize: 20),
+          ).muted,
+          const Divider(
+            thickness: 1.5,
+          ),
         ],
       ),
     );

@@ -5,7 +5,6 @@ import 'package:serverpod_flutter/serverpod_flutter.dart';
 import 'package:todo_flutter/core/router/router.dart';
 import 'package:todo_flutter/core/serverpod_client.dart';
 import 'package:todo_flutter/core/theme/shadcn_nord_color_theme.dart';
-import 'package:todo_flutter/features/todos/presentation/todo_list.dart';
 
 late final Client client;
 
